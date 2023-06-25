@@ -1,0 +1,88 @@
+version: "3.8"
+services:
+  ravendb:
+    image: ravendb/ravendb:ubuntu-latest
+    environment:
+      - RAVEN_License_Eula_Accepted=true
+      - RAVEN_Security_UnsecuredAccessAllowed=PrivateNetwork
+      - RAVEN_Setup_Mode=None
+    ports:
+      - "8080:8080"
+  sqldb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - MSSQL_SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "1434:1433"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -b -o /dev/null
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=sa
+      - MONGO_INITDB_ROOT_PASSWORD=Pass@word
+    ports:
+      - "27017:27017"
+  cosmosdb:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
+    environment:
+      - AZURE_COSMOS_EMULATOR_PARTITION_COUNT=10
+      - AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=false
+    ports:
+      - "8081:8081"
+      - "8900:8900"
+      - "8901:8901"
+      - "8979:8979"
+      - "10250:10250"
+      - "10251:10251"
+      - "10252:10252"
+      - "10253:10253"
+      - "10254:10254"
+      - "10255:10255"
+      - "10256:10256"
+      - "10350:10350"
+  firestore:
+    image: mtlynch/firestore-emulator
+    environment:
+      - FIRESTORE_PROJECT_ID=dummy-project-id
+      - PORT=8200
+    ports:
+      - "8200:8200"
+  faunadb:
+    image: fauna/faunadb
+    environment:
+      - AUTH_ROOT_KEY=Pass@word
+    ports:
+      - "8443:8443"
+      - "8084:8084"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8443/ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  surrealdb:
+    image: surrealdb/surrealdb:latest
+    command: start --user sa --pass Pass@word file:/data/database.db
+    ports:
+      - "8000:8000"
+  redis:
+    image: redis/redis-stack
+    ports:
+      - "6379:6379"
+  cockroachdb:
+    image: cockroachdb/cockroach:latest
+    command: start --insecure
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+  dgraph:
+    image: dgraph/dgraph:latest
+    ports:
+      - 5080:5080
+      - 6080:6080
+    command: dgraph zero --my=zero:5080

@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TechnologyTest.Application\TechnologyTest.Application.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.CockroachDB\TechnologyTest.Persistence.CockroachDB.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.CosmosDB\TechnologyTest.Persistence.CosmosDB.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.DgraphDB\TechnologyTest.Persistence.DgraphDB.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.EFCore\TechnologyTest.Persistence.EFCore.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.FaunaDB\TechnologyTest.Persistence.FaunaDB.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.Firestore\TechnologyTest.Persistence.Firestore.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.MongoDB\TechnologyTest.Persistence.MongoDB.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.RavenDB\TechnologyTest.Persistence.RavenDB.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.Redis\TechnologyTest.Persistence.Redis.csproj" />
+      <ProjectReference Include="..\TechnologyTest.Persistence.SurrealDB\TechnologyTest.Persistence.SurrealDB.csproj" />
+    </ItemGroup>
+
+</Project>
